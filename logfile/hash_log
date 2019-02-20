@@ -1,0 +1,36 @@
+
+Sample Num : 10000
+constructing time : 0.120541
+Search Node is 1000000
+Ready!
+Buffer size is 100000000
+Conflicts is 288 ( 2.88 %) 
+Total Time is 0.952120
+Search Time is 0.912751
+One Time is 0.000001
+Correct Percent is 100.000000
+
+Sample Num : 100000
+constructing time : 0.223055
+Search Node is 1000000
+Ready!
+Buffer size is 100000000
+Conflicts is 30663 ( 30.66 %) 
+Total Time is 1.168352
+Search Time is 1.128871
+One Time is 0.000001
+Correct Percent is 100.000000
+
+Sample Num : 1000000
+constructing time : 1.374473
+Search Node is 1000000
+Ready!
+Buffer size is 100000000
+Conflicts is 1906836 ( 190.68 %) 
+Total Time is 1.566780
+Search Time is 1.527263
+One Time is 0.000002
+Correct Percent is 100.000000
+
+Sample Num : 10000000
+
