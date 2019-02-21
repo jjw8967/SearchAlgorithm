@@ -22,17 +22,22 @@ int search(char **list, char *str){
 	int mid = (first+last)/2;
 	int value = 0;
 
-	while(last-first > 1){
-		if(strcmp(list[mid],str)<0){
-			first = mid;
-			mid = (first+last)/2;
-		}else if(strcmp(list[mid],str)>0){
-			last = mid;
-			mid = (first+last)/2;
-		}else{
+	while(first <= last){
+		if(strcmp(list[mid],str)==0){
 			value = 1;
 			break;
 		}
+		else if(strcmp(list[mid],str)<0){
+			first = mid + 1;
+			mid = (first+last)/2;
+		}else if(strcmp(list[mid],str)>0){
+			last = mid - 1;
+			mid = (first+last)/2;
+		}
+	}
+	if(value ==0){
+		printf("%s : ",str);
+		printf("%s\n",list[last]);
 	}
 
 	return value;

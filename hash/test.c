@@ -10,7 +10,6 @@
 int NODE_NUM;
 int STR_LEN;
 char **randomList;
-char **searchList;
 int conflict=0;
 
 typedef struct Node{
@@ -58,47 +57,23 @@ int main(int argc, char**argv){
 	STR_LEN = atoi(argv[1]);
 	
 	int i,j,key,len,value,correct=0;
-	char *str=(char*)malloc(sizeof(char)*STR_LEN);
-	double searchTime=0,totalTime,Time;
-	struct timespec start, end, tstart, tend;
+	char *str=(char*)malloc(sizeof(char)*(STR_LEN+1));
+	double searchTime=0,functionTime = 0,Time;
+	struct timespec start, end, fstart, fend;
 	
-
-
-	randomList = (char**)malloc(sizeof(char*)*(NODE_NUM+1));
-
-	for(i =0; i< NODE_NUM;i++){
-		randomList[i] = (char*)malloc(sizeof(char)*STR_LEN);
-		fscanf(file,"%s",randomList[i]);
-	}
-
-	searchList = (char**)malloc(sizeof(char*)*(SEARCH_NUM+1));
-
-	char temp[15];
-	sprintf(temp,"%d",SEARCH_NUM);
-
-	fclose(file);
-	
-	strcat(fname,"_s");
-
-	FILE *file2;
-
-	file2 = fopen(fname,"r");
-
-	for(i =0; i< SEARCH_NUM;i++){
-		searchList[i] = (char*)malloc(sizeof(char)*STR_LEN);
-		fscanf(file2,"%s",searchList[i]);
-	}
-
-	fclose(file2);
-
 	clock_gettime(CLOCK_MONOTONIC, &start);
 
 	Node **table = (Node**)malloc(sizeof(Node*)*BUFFER_SIZE);
 	
 	for(i=0;i<NODE_NUM;i++){
-		key = hashFunc(randomList[i]);
-		insertNode(&table[key],(Node *)createNode(randomList[i]));
+		bzero(str,STR_LEN);
+		fscanf(file,"%s",str);
+
+		key = hashFunc(str);
+		insertNode(&table[key],(Node *)createNode(str));
 	}
+
+	fclose(file);
 	
 	clock_gettime(CLOCK_MONOTONIC, &end);
 
@@ -113,22 +88,34 @@ int main(int argc, char**argv){
 	
 	searchTime = 0;
 
-	clock_gettime(CLOCK_MONOTONIC, &tstart);
+    strcat(fname,"_s");
+
+    file = fopen(fname,"r");
+
 
 	for(i=0;i<SEARCH_NUM;i++){
-
-		str = searchList[i];
+		
+		bzero(str,STR_LEN);
+		fscanf(file,"%s",str);
 
 		//Search
-		clock_gettime(CLOCK_MONOTONIC, &start);
+		clock_gettime(CLOCK_MONOTONIC, &fstart);
 		
 		key = hashFunc(str);
-		value = searchNode(table[key],str);
 
+		clock_gettime(CLOCK_MONOTONIC, &fend);
+
+		clock_gettime(CLOCK_MONOTONIC, &start);
+
+		value = searchNode(table[key],str);
 	
 		clock_gettime(CLOCK_MONOTONIC, &end);
 		
 
+		functionTime += fend.tv_sec - fstart.tv_sec;
+        functionTime += (fend.tv_nsec - fstart.tv_nsec) / 1000000000.0;
+
+		
 		searchTime += end.tv_sec - start.tv_sec;
 	    searchTime += (end.tv_nsec - start.tv_nsec) / 1000000000.0;
 		
@@ -136,29 +123,21 @@ int main(int argc, char**argv){
 	
 	}
 
-	clock_gettime(CLOCK_MONOTONIC, &tend);
-
-	totalTime = tend.tv_sec - tstart.tv_sec;
-	totalTime += (tend.tv_nsec - tstart.tv_nsec) / 1000000000.0;
 	
 	printf("Buffer size is %d\n",BUFFER_SIZE);
 	printf("Conflicts is %d ( %.2f %%) \n",conflict,(float)conflict/(float)NODE_NUM*100);
-	printf("Total Time is %lf\n",totalTime);
 	printf("Search Time is %lf\n",searchTime);
+	printf("Function Time is %lf\n",functionTime);
 	printf("One Time is %lf\n",searchTime/SEARCH_NUM);
 	printf("Correct Percent is %lf\n",(float)correct/(float)SEARCH_NUM*100);
 
 	for(i=0;i<BUFFER_SIZE;i++) freeTree(table[i]);
+
 	free(fname);
 	free(table);
-	free(str);
-	
-	for(i=0;i<NODE_NUM;i++) free(randomList[i]);
-	free(randomList);
-
-	free(searchList);
 	
 	fclose(file);
+	
 	
 	return 0;
 
@@ -188,7 +167,8 @@ void insertNode(struct Node **root, struct Node *node){
 
 void *createNode(char *str){
 	Node *temp = (Node*)malloc(sizeof(Node));
-	temp->value = str;
+	temp->value = (char*)malloc(sizeof(char)*STR_LEN);
+	strcpy(temp->value,str);
 	temp->right=temp->left = NULL;
 
 	return (void *)temp;
@@ -196,7 +176,8 @@ void *createNode(char *str){
 
 int hashFunc(char* str){
 	int i,sum=0;
-	for(i=0;i<STR_LEN;i++){
+	int len = strlen(str);
+	for(i=0;i<len;i++){
 		sum += (str[i]*str[i]+str[i]*i);
 	}
 	return (sum*strlen(str))%BUFFER_SIZE;
@@ -204,10 +185,11 @@ int hashFunc(char* str){
 
 void freeTree(Node* root){
     if(root == NULL) return;
-    Node *temp = root;
+	Node *temp = root;
     freeTree(root->left);
     freeTree(root->right);
-    free(temp);
+	free(temp->value);
+	free(temp);
 
 }
 

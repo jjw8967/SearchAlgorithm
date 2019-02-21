@@ -7,7 +7,7 @@ count = -1
 buff_size = 0
 xlabel = []
 h_conf = []	# conflict
-b_st,h_st = [],[]	# searchTime
+b_st,h_st,h_ft = [],[],[]	# searchTime
 h_ct,b_ct = [],[] # ConstructTime
 h_cor,b_cor = [], [] # Correct
 
@@ -30,6 +30,10 @@ with open("logfile/hash_log","r") as f:
 		elif "Search Time" in line:
 			search_time = line.split(" ")[3]
 			h_sample[count]['search_time'] = float(search_time)
+
+		elif "Function Time" in line:
+			function_time = line.split(" ")[3]
+			h_sample[count]['function_time'] = float(function_time)
 
 		elif "constructing time" in line:
 			construct_time = line.split(" ")[3]
@@ -62,10 +66,12 @@ with open("logfile/binary_log","r") as f:
 			correct = line.split(" ")[3]
 			b_sample[count]['correct_per'] = float(correct)
 
+
 for data in h_sample:
 	xlabel.append(data['sample_num'])
 	h_conf.append(data['conflict'])
 	h_st.append(data['search_time'])
+	h_ft.append(data['function_time'])
 	h_ct.append(data['construct_time'])	
 	h_cor.append(data['correct_per'])
 
@@ -85,10 +91,11 @@ plt.ylabel("Conflict( %)")
 plt.subplot(222)
 plt.title("Search Time")
 plt.plot(x,h_st,'rs--')
+plt.plot(x,h_ft,'gs--')
 plt.plot(x,b_st,'bs--')
 plt.xticks(x,xlabel)
 plt.ylabel("Search Time(seconds)")
-plt.legend(['hash','binary'])
+plt.legend(['hash_search','has_function','binary'])
 plt.grid()
 
 plt.subplot(223)

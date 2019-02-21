@@ -28,6 +28,7 @@ int main(int argc,char **argv){
 	sFile = fopen(fname,"w");
 
 	for(i=0;i<NODE_NUM;i++){
+		bzero(str,STR_NUM);
 		random = rand()%STR_NUM+1;
 
 		for(j=0;j<random;j++)

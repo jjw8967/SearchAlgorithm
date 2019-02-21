@@ -101,7 +101,7 @@ int main(int argc, char** argv){
 	searchList = (char**)malloc(sizeof(char*)*SEARCH_NUM);
 
 
-	int flen = strlen(argv[1])+strlen(argv[2])+strlen(PATH)+1;
+	int flen = strlen(argv[1])+strlen(argv[2])+strlen(PATH)+3;
 	fname = (char*)malloc(sizeof(char)*flen);
 	bzero(fname,flen);
 	strcpy(fname,PATH);
@@ -134,15 +134,7 @@ int main(int argc, char** argv){
 	}
 
 	fclose(file);
-
-	char stemp[15];
-	sprintf(stemp,"%d",SEARCH_NUM);
-
-	fname = (char*)realloc(fname,sizeof(char)*(strlen(PATH)+strlen(argv[1])+strlen(stemp)+2));
-    strcpy(fname,PATH);
-    strcat(fname,argv[1]);
-    strcat(fname,"_");
-    strcat(fname,stemp);
+	
     strcat(fname,"_s");
 
 	file = fopen(fname,"r");

@@ -1,25 +1,25 @@
 
 Sample Num : 10000
-constructing time : 0.007002
-Search Time is 0.468625
+constructing time : 0.007422
+Search Time is 0.341865
 One Time is 0.000000
-Correct Percent is 99.979401
+Correct Percent is 100.000000
 
 Sample Num : 100000
-constructing time : 0.044712
-Search Time is 0.579657
+constructing time : 0.046464
+Search Time is 0.613890
 One Time is 0.000001
-Correct Percent is 99.998802
+Correct Percent is 100.000000
 
 Sample Num : 1000000
-constructing time : 0.760105
-Search Time is 1.246288
+constructing time : 0.586802
+Search Time is 1.083197
 One Time is 0.000001
-Correct Percent is 99.999603
+Correct Percent is 100.000000
 
 Sample Num : 10000000
-constructing time : 10.549022
-Search Time is 2.002217
+constructing time : 10.750697
+Search Time is 2.130380
 One Time is 0.000002
 Correct Percent is 100.000000
 
