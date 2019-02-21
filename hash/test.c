@@ -7,21 +7,18 @@
 #define SEARCH_NUM 1000000
 #define PATH "../random/"
 
-int NODE_NUM;
-int STR_LEN;
-char **randomList;
-int conflict=0;
-
 typedef struct Node{
-	struct Node *right;
-	struct Node *left;
-	char *value;
+	int len;
+	char **list;
 }Node;
 
-char *createRand(int num);
+int NODE_NUM;
+int STR_LEN;
+int conflict=0;
+int moveSum=0;
+
 int searchNode(struct Node *root, char *str);
-void insertNode(struct Node **root, struct Node *node);
-void *createNode(char *str);
+void insertNode(struct Node **root, char *str);
 void freeTree(struct Node *root);
 int hashFunc(char* str);
 
@@ -40,10 +37,8 @@ int main(int argc, char**argv){
 	}
 	
 	char *fname = (char*)malloc(sizeof(char)*(strlen(PATH)+strlen(argv[1])+strlen(argv[2])+3));
-	strcpy(fname,PATH);
-	strcat(fname,argv[1]);
-	strcat(fname,"_");
-	strcat(fname,argv[2]);
+	
+	sprintf(fname,"%s%s_%s",PATH,argv[1],argv[2]);
 
 	FILE *file = fopen(fname,"r");
 	
@@ -70,7 +65,7 @@ int main(int argc, char**argv){
 		fscanf(file,"%s",str);
 
 		key = hashFunc(str);
-		insertNode(&table[key],(Node *)createNode(str));
+		insertNode(&table[key],str);
 	}
 
 	fclose(file);
@@ -90,13 +85,13 @@ int main(int argc, char**argv){
 
     strcat(fname,"_s");
 
-    file = fopen(fname,"r");
+    FILE *sFile = fopen(fname,"r");
 
 
 	for(i=0;i<SEARCH_NUM;i++){
 		
 		bzero(str,STR_LEN);
-		fscanf(file,"%s",str);
+		fscanf(sFile,"%s",str);
 
 		//Search
 		clock_gettime(CLOCK_MONOTONIC, &fstart);
@@ -123,6 +118,7 @@ int main(int argc, char**argv){
 	
 	}
 
+	fclose(sFile);
 	
 	printf("Buffer size is %d\n",BUFFER_SIZE);
 	printf("Conflicts is %d ( %.2f %%) \n",conflict,(float)conflict/(float)NODE_NUM*100);
@@ -130,48 +126,61 @@ int main(int argc, char**argv){
 	printf("Function Time is %lf\n",functionTime);
 	printf("One Time is %lf\n",searchTime/SEARCH_NUM);
 	printf("Correct Percent is %lf\n",(float)correct/(float)SEARCH_NUM*100);
+	printf("Move Average is %d\n",moveSum/SEARCH_NUM);
 
 	for(i=0;i<BUFFER_SIZE;i++) freeTree(table[i]);
 
 	free(fname);
 	free(table);
 	
-	fclose(file);
-	
-	
 	return 0;
 
 }
 
 int searchNode(struct Node *root, char *str){
-	if(root==NULL) return 0;
-	else if(strcmp(root->value,str)==0) return 1;
-	else if(strcmp(root->value, str)>0)   //move left
-		searchNode(root->left,str);
-    else								  //move right
-        searchNode(root->right,str);
-	
-}
-void insertNode(struct Node **root, struct Node *node){
-	if(*root == NULL){
-        *root = node;
-        return;
+	char **list = root->list;
+	int first = 0,last = root->len-1;
+    int mid = (first+last)/2;
+    int value = 0;
+
+    while(first <= last){
+        if(strcmp(list[mid],str)==0){
+            value = 1;
+            break;
+        }
+        else if(strcmp(list[mid],str)<0){
+            first = mid + 1;
+            mid = (first+last)/2;
+        }else if(strcmp(list[mid],str)>0){
+            last = mid - 1;
+            mid = (first+last)/2;
+        }
     }
+
+    return value;
 	
-	conflict++;
-    if(strcmp((*root)->value, node->value)>0)   //move left
-        insertNode(&((*root)->left),node);
-    else if(strcmp((*root)->value, node->value)<0)  //move right
-        insertNode(&((*root)->right),node);	
 }
+void insertNode(Node **root, char *str){
 
-void *createNode(char *str){
-	Node *temp = (Node*)malloc(sizeof(Node));
-	temp->value = (char*)malloc(sizeof(char)*STR_LEN);
-	strcpy(temp->value,str);
-	temp->right=temp->left = NULL;
+	if(*root == NULL){
+		(*root) = (Node*)malloc(sizeof(Node));
+		(*root)->list = (char**)malloc(sizeof(char*)*1);
+		(*root)->list[0] = (char*)malloc(sizeof(char)*STR_LEN);
+		strcpy((*root)->list[0],str);
+		(*root)->len = 1;
+        
+		return;
+    }
 
-	return (void *)temp;
+	Node *node = (*root);
+	node->len +=1;
+	node->list = (char**)realloc(node->list,sizeof(char*)*(node->len));
+	node->list[node->len-1] = (char*)malloc(sizeof(char)*STR_LEN);
+	strcpy(node->list[node->len-1],str);
+
+	conflict++;
+
+	return;
 }
 
 int hashFunc(char* str){
@@ -186,10 +195,12 @@ int hashFunc(char* str){
 void freeTree(Node* root){
     if(root == NULL) return;
 	Node *temp = root;
-    freeTree(root->left);
-    freeTree(root->right);
-	free(temp->value);
+    int i;
+
+	for(i=0;i<temp->len;i++){
+		free(temp->list[i]);
+	}
+	free(temp->list);
 	free(temp);
 
 }
-

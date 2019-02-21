@@ -5,6 +5,36 @@
 
 #define SEARCH_NUM 1000000
 
+void swap(char **x, char **y){
+    char *temp = *x;
+    *x = *y;
+    *y = temp;
+
+}
+
+
+void quick(char **list, int left, int right){
+    if(left>=right) return;
+    int pivot = left;
+    int low = left+1, high = right;
+
+    while(low<=high){
+        if(strcmp(list[low],list[pivot])>0){
+            swap(&list[low],&list[high]);
+            high--;
+            continue;
+        }
+        low++;
+    }
+
+    swap(&list[pivot],&list[high]);
+    pivot = high;
+
+    quick(list,left,pivot-1);
+    quick(list,pivot+1,right);
+
+}
+
 int main(int argc,char **argv){
 	srand(time(NULL));
 
@@ -27,18 +57,23 @@ int main(int argc,char **argv){
 
 	sFile = fopen(fname,"w");
 
+	
 	for(i=0;i<NODE_NUM;i++){
 		bzero(str,STR_NUM);
 		random = rand()%STR_NUM+1;
 
 		for(j=0;j<random;j++)
 			str[j] = rand()%26+97;
-
-		fprintf(rFile,"%s\n",str);
 	
 		buff[i] = (char*)malloc(sizeof(char)*STR_NUM);
 		
 		strcpy(buff[i],str);
+	}
+
+	quick(buff,0,NODE_NUM-1);
+
+	for(i=0;i<NODE_NUM;i++){
+		fprintf(rFile,"%s\n",buff[i]);
 	}
 	
 	for(i=0;i<SEARCH_NUM;i++){

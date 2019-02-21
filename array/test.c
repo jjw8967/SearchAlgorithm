@@ -9,6 +9,7 @@
 
 int STR_NUM;
 int NODE_NUM;
+int moveSum=0;
 
 void swap(char **x, char **y){
 	char *temp = *x;
@@ -34,11 +35,9 @@ int search(char **list, char *str){
 			last = mid - 1;
 			mid = (first+last)/2;
 		}
+		moveSum++;
 	}
-	if(value ==0){
-		printf("%s : ",str);
-		printf("%s\n",list[last]);
-	}
+	
 
 	return value;
 }
@@ -116,9 +115,10 @@ int main(int argc, char **argv){
 
     file = fopen(fname,"r"); 
 
+	
 	clock_gettime(CLOCK_MONOTONIC, &start);
 
-	quick(sortedList,0,NODE_NUM-1);
+	//quick(sortedList,0,NODE_NUM-1);		I used sorted data in file
 
 	clock_gettime(CLOCK_MONOTONIC, &end);
 
@@ -151,7 +151,8 @@ int main(int argc, char **argv){
     printf("Search Time is %lf\n",Time);
     printf("One Time is %lf\n",Time/SEARCH_NUM);
     printf("Correct Percent is %lf\n",(float)correct/(float)SEARCH_NUM*100);
-	
+	printf("Move Average is %d\n",moveSum/SEARCH_NUM);
+
 	free(sortedList);
 
 	fclose(file);
