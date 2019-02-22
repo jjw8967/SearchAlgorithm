@@ -1,49 +1,53 @@
 
 Sample Num : 10000
-constructing time : 0.178562
+constructing time : 0.018480
 Search Node is 1000000
 Ready!
-Buffer size is 100000000
-Conflicts is 17 ( 0.17 %) 
-Search Time is 0.118250
-Function Time is 0.450795
+Buffer size is 1000000
+Conflicts is 97 ( 0.97 %) 
+Buffer filled Rate is 0.99
+Search Time is 0.158085
+Function Time is 0.197194
 One Time is 0.000000
 Correct Percent is 100.000000
-Move Average is 0
+Move Average is 0.009915
 
 Sample Num : 100000
-constructing time : 0.260241
+constructing time : 0.088033
 Search Node is 1000000
 Ready!
-Buffer size is 100000000
-Conflicts is 877 ( 0.88 %) 
-Search Time is 0.312509
-Function Time is 0.443982
+Buffer size is 1000000
+Conflicts is 8940 ( 8.94 %) 
+Buffer filled Rate is 9.11
+Search Time is 0.299591
+Function Time is 0.141251
 One Time is 0.000000
 Correct Percent is 100.000000
-Move Average is 0
+Move Average is 0.096626
 
 Sample Num : 1000000
-constructing time : 1.223089
+constructing time : 1.122333
 Search Node is 1000000
 Ready!
-Buffer size is 100000000
-Conflicts is 44939 ( 4.49 %) 
-Search Time is 0.386993
-Function Time is 0.440844
-One Time is 0.000000
-Correct Percent is 100.000000
-Move Average is 0
-
-Sample Num : 10000000
-constructing time : 11.452078
-Search Node is 1000000
-Ready!
-Buffer size is 100000000
-Conflicts is 2817790 ( 28.18 %) 
-Search Time is 0.508968
-Function Time is 0.446401
+Buffer size is 1000000
+Conflicts is 469355 ( 46.94 %) 
+Buffer filled Rate is 53.06
+Search Time is 0.538936
+Function Time is 0.197926
 One Time is 0.000001
 Correct Percent is 100.000000
-Move Average is 0
+Move Average is 0.604540
+
+Sample Num : 10000000
+constructing time : 10.341674
+Search Node is 1000000
+Ready!
+Buffer size is 1000000
+Conflicts is 9008860 ( 90.09 %) 
+Buffer filled Rate is 99.11
+Search Time is 0.844609
+Function Time is 0.139975
+One Time is 0.000001
+Correct Percent is 100.000000
+Move Average is 2.341889
 

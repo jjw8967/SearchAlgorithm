@@ -6,7 +6,7 @@ h_sample,b_sample = [] , []
 count = -1
 buff_size = 0
 xlabel = []
-h_conf = []	# conflict
+h_conf,h_fill = [],[]	# conflict
 b_st,h_st,h_ft = [],[],[]	# searchTime
 h_ct,b_ct = [],[] # ConstructTime
 h_cor,b_cor = [], [] # Correct
@@ -45,6 +45,9 @@ with open("logfile/hash_log","r") as f:
 		elif "Move Average" in line:
 			move = line.split(" ")[3]
 			h_sample[count]['move_avg'] = float(move)
+		elif "Buffer filled Rate" in line:
+			fill = line.split(" ")[4]
+			h_sample[count]['fill_rate'] = float(fill)
 
 
 count = -1
@@ -83,6 +86,7 @@ for data in h_sample:
 	h_ct.append(data['construct_time'])	
 	h_cor.append(data['correct_per'])
 	h_ma.append(data['move_avg'])
+	h_fill.append(data['fill_rate'])
 
 for data in b_sample:
 	b_st.append(data['search_time'])
@@ -96,10 +100,12 @@ plt.figure(figsize=(12,12))
 # Conflict Rate
 plt.subplot(331)
 x = np.arange(len(xlabel))
-plt.title("Conflict rate ({})".format(buff_size))
-plt.bar(x,h_conf)
+plt.title("Buffer ({})".format(buff_size))
+plt.bar(x,h_fill)
+plt.plot(x,h_conf,'rs--')
 plt.xticks(x,xlabel)
-plt.ylabel("Conflict( %)")
+plt.ylabel("Rate( %)")
+plt.legend(['Conflict','Fill Rate'])
 
 # Search Time
 plt.subplot(332)

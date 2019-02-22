@@ -60,7 +60,7 @@ int main(int argc,char **argv){
 	
 	for(i=0;i<NODE_NUM;i++){
 		bzero(str,STR_NUM);
-		random = rand()%STR_NUM+1;
+		random = rand()%(STR_NUM-1)+2;
 
 		for(j=0;j<random;j++)
 			str[j] = rand()%26+97;

@@ -1,28 +1,28 @@
 
 Sample Num : 10000
 constructing time : 0.000000
-Search Time is 0.330896
+Search Time is 0.318020
 One Time is 0.000000
 Correct Percent is 100.000000
 Move Average is 11
 
 Sample Num : 100000
 constructing time : 0.000000
-Search Time is 0.569749
+Search Time is 0.766414
 One Time is 0.000001
 Correct Percent is 100.000000
 Move Average is 14
 
 Sample Num : 1000000
 constructing time : 0.000000
-Search Time is 1.016429
+Search Time is 0.983193
 One Time is 0.000001
 Correct Percent is 100.000000
 Move Average is 17
 
 Sample Num : 10000000
 constructing time : 0.000000
-Search Time is 1.597631
+Search Time is 1.877051
 One Time is 0.000002
 Correct Percent is 100.000000
 Move Average is 21

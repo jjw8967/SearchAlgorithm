@@ -64,38 +64,29 @@ void quick(char **list, int left, int right){
 }
 
 int main(int argc, char **argv){
-    if(argc == 1){
-        argv[1] = (char*)malloc(sizeof(char)*3);
-        strcpy(argv[1],"256");
-        argv[2] = (char*)malloc(sizeof(char)*7);
-        strcpy(argv[2],"1000000");
-
-		
-    }else if(argc != 3){
-        perror("Please arguments format is ( STR_NUM, NODE_NUM)\n");
-        exit(0);
-    }
+    
+	if(argc == 1){
+		STR_NUM = 256; 
+        NODE_NUM = 1000000;
+    }else if(argc == 3){
+		STR_NUM = atoi(argv[1]);
+		NODE_NUM = atoi(argv[2]);
+    }else{
+		perror("Please arguments format is ( STR_NUM, NODE_NUM)\n");
+		exit(0);
+	}
 
     srand(time(NULL));
 
-
-    STR_NUM = atoi(argv[1]);
-    NODE_NUM = atoi(argv[2]);
 	char **sortedList = (char**)malloc(sizeof(char*)*NODE_NUM);
 
-	char *fname;
+	char fname[30];
 	char *str = (char*)malloc(sizeof(char)*STR_NUM);
-    int flen = strlen(argv[1])+strlen(argv[2])+strlen(PATH)+3;
 	int i,value=0,correct=0;
     double Time;
     struct timespec start, end;
-
-    fname = (char*)malloc(sizeof(char)*flen);
-    bzero(fname,flen);
-    strcpy(fname,PATH);
-    strcat(fname,argv[1]);
-    strcat(fname,"_");
-    strcat(fname,argv[2]);	
+    
+	sprintf(fname,"%s%d_%d",PATH,STR_NUM,NODE_NUM);
 
 	FILE *file = fopen(fname,"r");
 
@@ -113,7 +104,7 @@ int main(int argc, char **argv){
 
 	strcat(fname,"_s");
 
-    file = fopen(fname,"r"); 
+    FILE *sFile = fopen(fname,"r");
 
 	
 	clock_gettime(CLOCK_MONOTONIC, &start);
@@ -130,14 +121,16 @@ int main(int argc, char **argv){
 	clock_gettime(CLOCK_MONOTONIC, &start);
 
 	Time=0;
+	
 	for(i=0;i<SEARCH_NUM;i++){
 		bzero(str,STR_NUM);
-		fscanf(file,"%s",str);
-		//start
+		fscanf(sFile,"%s",str);
+
+		// Search String
 		clock_gettime(CLOCK_MONOTONIC, &start);
 		
 		value = search(sortedList,str);
-		//end
+		
 		clock_gettime(CLOCK_MONOTONIC, &end);
 
 		Time += end.tv_sec - start.tv_sec;
@@ -147,17 +140,18 @@ int main(int argc, char **argv){
 			correct ++;
 	}
 
+	fclose(sFile);
 
     printf("Search Time is %lf\n",Time);
     printf("One Time is %lf\n",Time/SEARCH_NUM);
     printf("Correct Percent is %lf\n",(float)correct/(float)SEARCH_NUM*100);
-	printf("Move Average is %d\n",moveSum/SEARCH_NUM);
+	printf("Move Average is %f\n",(float)moveSum/SEARCH_NUM);
+
+    for(i=0;i<NODE_NUM;i++){
+        free(sortedList[i]);
+    } 
 
 	free(sortedList);
-
-	fclose(file);
-
-	free(fname);
 
 	return 0;
 
