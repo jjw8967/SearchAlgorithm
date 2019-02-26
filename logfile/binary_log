@@ -1,33 +1,33 @@
 
 Sample Num : 10000
 constructing time : 0.000000
-Search Time is 1.104230
+Search Time is 6.689074
 One Time is 0.000001
 Correct Percent is 100.000000
-Move Average is 11.361585
-Number of Cycle is 706755
+Move Average is 11.363852
+Number of Cycle is 6457354
 
 Sample Num : 100000
 constructing time : 0.000000
-Search Time is 0.971485
+Search Time is 8.887013
 One Time is 0.000001
 Correct Percent is 100.000000
-Move Average is 14.688931
-Number of Cycle is 915842
+Move Average is 14.686630
+Number of Cycle is 8858524
 
 Sample Num : 1000000
 constructing time : 0.000000
-Search Time is 1.474560
+Search Time is 14.046699
 One Time is 0.000001
 Correct Percent is 100.000000
-Move Average is 17.941776
-Number of Cycle is 1435998
+Move Average is 17.940250
+Number of Cycle is 13939597
 
 Sample Num : 10000000
 constructing time : 0.000000
-Search Time is 2.274674
+Search Time is 22.096843
 One Time is 0.000002
 Correct Percent is 100.000000
-Move Average is 21.292248
-Number of Cycle is 2260820
+Move Average is 21.291946
+Number of Cycle is 22081976
 

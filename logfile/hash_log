@@ -1,57 +1,57 @@
 
 Sample Num : 10000
-constructing time : 0.050059
-Search Node is 1000000
+constructing time : 0.047226
+Search Node is 10000000
 Ready!
-Buffer size is 1000000
-Conflicts is 390 ( 3.90 %) 
-Hits is 9610 ( 96.10 %) 
-Search Time is 0.670890
+Buffer size is 10000000
+Conflicts is 334 ( 3.34 %) 
+Hits is 9666 ( 96.66 %) 
+Search Time is 6.288199
 One Time is 0.000001
 Correct Percent is 100.000000
-Move Average is 0.061796
-Number of Cycle is 598969
-Number of One Slot 9477 ( 98.62 %)
+Move Average is 0.052497
+Number of Cycle is 6036998
+Number of One Slot 9574 ( 99.05 %)
 
 Sample Num : 100000
-constructing time : 0.100382
-Search Node is 1000000
+constructing time : 0.133538
+Search Node is 10000000
 Ready!
-Buffer size is 1000000
-Conflicts is 10290 ( 10.29 %) 
-Hits is 89710 ( 89.71 %) 
-Search Time is 0.761274
+Buffer size is 10000000
+Conflicts is 5942 ( 5.94 %) 
+Hits is 94058 ( 94.06 %) 
+Search Time is 7.216517
 One Time is 0.000001
 Correct Percent is 100.000000
-Move Average is 0.179959
-Number of Cycle is 686690
-Number of One Slot 84289 ( 93.96 %)
+Move Average is 0.174749
+Number of Cycle is 7096890
+Number of One Slot 92655 ( 98.51 %)
 
 Sample Num : 1000000
-constructing time : 0.798869
-Search Node is 1000000
+constructing time : 0.872949
+Search Node is 10000000
 Ready!
-Buffer size is 1000000
-Conflicts is 414983 ( 41.50 %) 
-Hits is 585017 ( 58.50 %) 
-Search Time is 0.901925
+Buffer size is 10000000
+Conflicts is 121028 ( 12.10 %) 
+Hits is 878972 ( 87.90 %) 
+Search Time is 8.162990
 One Time is 0.000001
 Correct Percent is 100.000000
-Move Average is 0.471556
-Number of Cycle is 894654
-Number of One Slot 344328 ( 58.86 %)
+Move Average is 0.355368
+Number of Cycle is 8146075
+Number of One Slot 826552 ( 94.04 %)
 
 Sample Num : 10000000
-constructing time : 10.029265
-Search Node is 1000000
+constructing time : 8.642616
+Search Node is 10000000
 Ready!
-Buffer size is 1000000
-Conflicts is 9001085 ( 90.01 %) 
-Hits is 998915 ( 9.99 %) 
-Search Time is 1.407267
+Buffer size is 10000000
+Conflicts is 4233935 ( 42.34 %) 
+Hits is 5766065 ( 57.66 %) 
+Search Time is 10.517268
 One Time is 0.000001
 Correct Percent is 100.000000
-Move Average is 2.119688
-Number of Cycle is 1402851
-Number of One Slot 6434 ( 0.64 %)
+Move Average is 0.704047
+Number of Cycle is 10420676
+Number of One Slot 3431947 ( 59.52 %)
 

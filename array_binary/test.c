@@ -3,7 +3,7 @@
 #include<stdlib.h>
 #include<time.h>
 
-#define SEARCH_NUM 1000000
+#define SEARCH_NUM 10000000
 #define THREAD_NUM 1
 #define PATH "../random/"
 

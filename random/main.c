@@ -3,7 +3,7 @@
 #include<stdlib.h>
 #include<string.h>
 
-#define SEARCH_NUM 1000000
+#define SEARCH_NUM 10000000
 
 void swap(char **x, char **y){
     char *temp = *x;

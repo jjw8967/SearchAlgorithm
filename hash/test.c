@@ -3,8 +3,8 @@
 #include<string.h>
 #include<time.h>
 
-#define BUFFER_SIZE 1000000
-#define SEARCH_NUM 1000000
+#define BUFFER_SIZE 10000000
+#define SEARCH_NUM 10000000
 #define PATH "../random/"
 
 typedef struct Node{
@@ -91,7 +91,7 @@ int main(int argc, char**argv){
 	
 
 	for(i=0;i<SEARCH_NUM;i++){
-		
+	
 		bzero(str,STR_LEN);
 		fscanf(sFile,"%s",str);
 
@@ -223,10 +223,14 @@ int hashFunc(char* str){
     for(i=0;i<len;i+=7){
         sel = i+move;
 
-        sum += ((str[i]|str[sel]) << (i%30));
+        sum += ((str[i]|str[sel])<< (i%30));
 
     }
-
+/*
+	for(i=0;i<len;i++){
+		sum += ((str[i]|str[i+2]) << i%30);
+	}
+*/
     return sum%BUFFER_SIZE;
 
 }
