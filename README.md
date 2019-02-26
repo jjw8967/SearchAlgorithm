@@ -2,13 +2,13 @@
 
 ## 개선된 알고리즘과 Binary Search 의 성능 비교
 ### 1. Buffer Size 별 성능 비교 ( 탐색 수 100만)
-![](img/종합비교2_10만.png)
+![](img/buffer_10.png)
 > Buffer 사이즈를 10만으로 했을 경우
 
-![](img/종합비교2_100만.png)
+![](img/buffer_100.png)
 > Buffer 사이즈를 100만으로 했을 경우
 
-![](img/종합비교2_1000만.png)
+![](img/buffer_1000.png)
 > Buffer 사이즈를 1000만으로 했을 경우
 
 ### 2. 탐색 수를 1000만으로 늘렸을 경우
