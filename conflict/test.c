@@ -3,98 +3,245 @@
 #include<string.h>
 #include<time.h>
 
+#define SEARCH_NUM 1000000
 #define PATH "../random/"
-#define TEST_SIZE 3
 
-int STR_LEN,NODE_NUM;
+typedef struct Node{
+	int len;
+	char **list;
+	char *value;
+}Node;
 
-int hashFunction(char *str,int size){
-	unsigned int i,sum = 0,len = strlen(str);
-	int move = len % 7,sel;
+int NODE_NUM;
+int STR_LEN;
+int conflict=0;
+int moveSum=0;
+int BUFFER_SIZE = 0;
+
+int searchNode(struct Node *root, char *str);
+void insertNode(struct Node **root, char *str);
+void freeTree(struct Node *root);
+int hashFunc(char* str);
+
+int main(int argc, char**argv){
 	
-	for(i=0;i<len-1;i+=7){
-		sel = i+move;
-		
-		sum += ((str[i]*str[sel]*str[(i+sel)/2]) << (i%30));
-	}
-	return sum%size;
-}
-int main(int argc,char **argv){
-
-	if(argc == 1){
-        NODE_NUM =1000000;
-        STR_LEN = 256;
-    }else if(argc == 3){
-        NODE_NUM = atoi(argv[2]);
-        STR_LEN = atoi(argv[1]);
-    }else{
+	
+	if(argc == 4){
+		BUFFER_SIZE = atoi(argv[3]);
+		NODE_NUM = atoi(argv[2]);
+		STR_LEN = atoi(argv[1]);
+	}else{
         perror("please input argument (string length, node number)");
         exit(0);
-    }
-
-	int buffer_size[TEST_SIZE] = {1000000,10000000,100000000};
-	char *str = (char*)malloc(sizeof(char)*STR_LEN);
-	int i,size,key,conflict,hit,j;
-    char fname[30];
-	char **inputList = (char**)malloc(sizeof(char*)*NODE_NUM);
-	int *buffer;
-	struct timespec start,end;
-	float total;
-
-    sprintf(fname,"%s%d_%d",PATH,STR_LEN,NODE_NUM);
+	}
 	
+	char fname[30];
 
-    FILE *file = fopen(fname,"r");
+	sprintf(fname,"%s%d_%d",PATH,STR_LEN,NODE_NUM);
 
-    if(file == NULL){
-        printf("%s\n",fname);
-        perror("File Error!\n");
-        exit(1);
-    }
+	FILE *file = fopen(fname,"r");
+	
+	if(file == NULL){
+		printf("%s\n",fname);
+		perror("File Error!\n");
+		exit(1);
+	}
+	
+	int i,j,key,len,value,correct=0;
+	char *str=(char*)malloc(sizeof(char)*(STR_LEN));
+
+	double searchTime=0,functionTime = 0,Time;
+	struct timespec start, end, fstart, fend;
+	
+	clock_gettime(CLOCK_MONOTONIC, &start);
+
+	Node **table = (Node**)malloc(sizeof(Node*)*BUFFER_SIZE);
 	
 	for(i=0;i<NODE_NUM;i++){
-		inputList[i] = (char*)malloc(sizeof(char)*STR_LEN);
-
 		bzero(str,STR_LEN);
 		fscanf(file,"%s",str);
-		
-		strcpy(inputList[i],str);
+
+		key = hashFunc(str);
+		insertNode(&table[key],str);
 	}
 
 	fclose(file);
-
-	for(i=0;i<TEST_SIZE;i++){
-		size = buffer_size[i];
-		buffer = (int*)malloc(sizeof(int)*size);
-		memset(buffer,0,sizeof(int)*size);		
-
-		hit = conflict = 0;
-		total=0;
-
-		for(j =0 ; j<NODE_NUM;j++){
-			
-			clock_gettime(CLOCK_MONOTONIC, &start);
-			
-			key = hashFunction(inputList[j],size);
-
-			clock_gettime(CLOCK_MONOTONIC, &end);
-			
-			total += end.tv_sec - start.tv_sec;
-	        total += (end.tv_nsec - start.tv_nsec) / 1000000000.0;
-			
-			if(buffer[key] == 0){
-				hit ++;
-				buffer[key] = 1;
-			}else if(buffer[key] == 1)conflict++;
-		}
-
-		free(buffer);
-		printf("Buffer Size : %d , Hit Rate : %f, Conflict Rate : %f, ",size,(float)hit/NODE_NUM*100,(float)conflict/NODE_NUM*100);
-		printf("Total Compute Time : %f , One Time: %f\n",total,total/NODE_NUM);
-	}
 	
-	for(i=0;i<NODE_NUM;i++) free(inputList[i]);
-	free(inputList);
+	clock_gettime(CLOCK_MONOTONIC, &end);
 
+	Time = end.tv_sec - start.tv_sec;
+    Time += (end.tv_nsec - start.tv_nsec) / 1000000000.0;
+    printf("constructing time : %lf\n",Time);
+
+	printf("Search Node is %d\n",SEARCH_NUM);
+	printf("Ready!\n");
+
+	srand(time(NULL));
+
+    strcat(fname,"_s");
+
+    FILE *sFile = fopen(fname,"r");
+	int cycle_start,cycle_end;
+
+	cycle_start = clock();
+	clock_gettime(CLOCK_MONOTONIC, &start);
+	
+	for(i=0;i<SEARCH_NUM;i++){
+		
+		bzero(str,STR_LEN);
+		fscanf(sFile,"%s",str);
+
+		// Measure Search Time
+		
+		key = hashFunc(str);
+
+		value = searchNode(table[key],str);
+		
+		if(value == 1) correct++;
+	
+	}
+
+	clock_gettime(CLOCK_MONOTONIC, &end);
+	cycle_end = clock();
+
+	searchTime = end.tv_sec - start.tv_sec;
+	searchTime += (end.tv_nsec - start.tv_nsec) / 1000000000.0;
+
+	fclose(sFile);
+
+	
+	printf("Buffer size is %d\n",BUFFER_SIZE);
+	printf("Conflicts is %d ( %.2f %%) \n",conflict,(float)conflict/(float)NODE_NUM*100);
+
+	int hits = NODE_NUM-conflict;
+	int oneSlot = 0, totalSlot=0;
+
+	printf("Hits is %d ( %.2f %%) \n",hits,(float)(hits)/(float)NODE_NUM*100);
+	printf("Search Time is %lf\n",searchTime);
+	printf("One Time is %lf\n",searchTime/SEARCH_NUM);
+	printf("Correct Percent is %lf\n",(float)correct/(float)SEARCH_NUM*100);
+	printf("Move Average is %f\n",(float)moveSum/SEARCH_NUM);
+	printf("Number of Cycle is %d\n",cycle_end-cycle_start);
+
+	for(i=0;i<BUFFER_SIZE;i++){
+		if(table[i] ==NULL) continue;
+		else if(table[i]->len==0)
+			oneSlot++;
+		
+		totalSlot+=table[i]->len+1;
+		
+	}
+	printf("Number of One Slot %d ( %.2f %%)\n",oneSlot,(float)oneSlot/(float)hits*100);
+	printf("Number of Total Slot %.2f\n",(float)totalSlot/(float)hits);
+	for(i=0;i<BUFFER_SIZE;i++) freeTree(table[i]);
+
+	free(table);
+	
 	return 0;
+
+}
+// Liear Search
+/*
+int searchNode(struct Node *root, char *str){
+	char **list = root->list;
+	
+	int i,len = root->len,value=0;
+
+	for(i=0;i<len;i++){
+		if(strcmp(list[i],str)==0){
+			value =1;
+			break;
+		}
+		moveSum++;
+	}
+
+	return value;
+}
+*/
+//Binary Search Tree
+
+int searchNode(struct Node *root, char *str){
+	
+	
+	if(strcmp(root->value,str)==0)
+		return 1;
+		
+
+	int first=0,value=0,last = root->len-1;
+	char **list = root->list;	
+    int mid = (first+last)/2;
+
+    while(first <= last){
+        if(strcmp(list[mid],str)==0){
+            value = 1;
+            break;
+        }
+        else if(strcmp(list[mid],str)<0){
+            first = mid + 1;
+            mid = (first+last)/2;
+        }else if(strcmp(list[mid],str)>0){
+            last = mid - 1;
+            mid = (first+last)/2;
+        }
+		moveSum++;
+    }
+
+    return value;
+	
+}
+
+void insertNode(Node **root, char *str){
+
+	Node *node;
+	if(*root == NULL){
+		
+		node = (Node*)malloc(sizeof(Node));
+		node->value = (char*)malloc(sizeof(char)*STR_LEN);
+		strcpy(node->value,str);
+		node->list = (char**)malloc(sizeof(char*)*1);
+		node->len = 0;
+
+        (*root) = node;
+		
+		return;
+    }
+	
+
+	node = (*root);
+	node->len ++;
+	node->list = (char**)realloc(node->list,sizeof(char*)*(node->len));
+	node->list[node->len-1] = (char*)malloc(sizeof(char)*STR_LEN);
+	strcpy(node->list[node->len-1],str);
+
+	conflict++;
+
+	return;
+}
+
+int hashFunc(char* str){
+	unsigned int i,sum = 0,len = strlen(str)-1;
+    int move = (len % 7),sel;
+
+    for(i=0;i<len;i+=7){
+        sel = i+move;
+
+        sum += ((str[i]|str[sel]) << (i%30));
+
+    }
+
+    return sum%BUFFER_SIZE;
+
+}
+
+void freeTree(Node* root){
+    if(root == NULL) return;
+	Node *temp = root;
+    int i;
+
+	for(i=0;i<temp->len;i++){
+		free(temp->list[i]);
+	}
+	free(temp->list);
+	free(temp);
+
 }

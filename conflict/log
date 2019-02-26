@@ -1,0 +1,151 @@
+
+Sample Num : 2
+constructing time : 1.059509
+Search Node is 1000000
+Ready!
+Buffer size is 200000
+Conflicts is 804457 ( 80.45 %) 
+Hits is 195543 ( 19.55 %) 
+Search Time is 1.056326
+One Time is 0.000001
+Correct Percent is 100.000000
+Move Average is 1.253268
+Number of Cycle is 1020788
+Number of One Slot 14742 ( 7.54 %)
+Number of Total Slot 5.11
+
+Sample Num : 4
+constructing time : 0.905628
+Search Node is 1000000
+Ready!
+Buffer size is 400000
+Conflicts is 651622 ( 65.16 %) 
+Hits is 348378 ( 34.84 %) 
+Search Time is 1.018483
+One Time is 0.000001
+Correct Percent is 100.000000
+Move Average is 0.783181
+Number of Cycle is 948182
+Number of One Slot 94126 ( 27.02 %)
+Number of Total Slot 2.87
+
+Sample Num : 6
+constructing time : 0.903611
+Search Node is 1000000
+Ready!
+Buffer size is 600000
+Conflicts is 544538 ( 54.45 %) 
+Hits is 455462 ( 45.55 %) 
+Search Time is 1.009918
+One Time is 0.000001
+Correct Percent is 100.000000
+Move Average is 0.599720
+Number of Cycle is 929894
+Number of One Slot 188474 ( 41.38 %)
+Number of Total Slot 2.20
+
+Sample Num : 8
+constructing time : 1.058684
+Search Node is 1000000
+Ready!
+Buffer size is 800000
+Conflicts is 470902 ( 47.09 %) 
+Hits is 529098 ( 52.91 %) 
+Search Time is 0.897797
+One Time is 0.000001
+Correct Percent is 100.000000
+Move Average is 0.520881
+Number of Cycle is 875372
+Number of One Slot 273282 ( 51.65 %)
+Number of Total Slot 1.89
+
+Sample Num : 10
+constructing time : 0.942424
+Search Node is 1000000
+Ready!
+Buffer size is 1000000
+Conflicts is 414983 ( 41.50 %) 
+Hits is 585017 ( 58.50 %) 
+Search Time is 0.896193
+One Time is 0.000001
+Correct Percent is 100.000000
+Move Average is 0.471556
+Number of Cycle is 867090
+Number of One Slot 344328 ( 58.86 %)
+Number of Total Slot 1.71
+
+Sample Num : 12
+constructing time : 0.806356
+Search Node is 1000000
+Ready!
+Buffer size is 1200000
+Conflicts is 373812 ( 37.38 %) 
+Hits is 626188 ( 62.62 %) 
+Search Time is 0.866277
+One Time is 0.000001
+Correct Percent is 100.000000
+Move Average is 0.442047
+Number of Cycle is 859910
+Number of One Slot 402088 ( 64.21 %)
+Number of Total Slot 1.60
+
+Sample Num : 14
+constructing time : 0.884266
+Search Node is 1000000
+Ready!
+Buffer size is 1400000
+Conflicts is 339407 ( 33.94 %) 
+Hits is 660593 ( 66.06 %) 
+Search Time is 0.845185
+One Time is 0.000001
+Correct Percent is 100.000000
+Move Average is 0.418672
+Number of Cycle is 843028
+Number of One Slot 451693 ( 68.38 %)
+Number of Total Slot 1.51
+
+Sample Num : 16
+constructing time : 0.966864
+Search Node is 1000000
+Ready!
+Buffer size is 1600000
+Conflicts is 315304 ( 31.53 %) 
+Hits is 684696 ( 68.47 %) 
+Search Time is 0.894287
+One Time is 0.000001
+Correct Percent is 100.000000
+Move Average is 0.408551
+Number of Cycle is 850926
+Number of One Slot 489796 ( 71.53 %)
+Number of Total Slot 1.46
+
+Sample Num : 18
+constructing time : 1.007743
+Search Node is 1000000
+Ready!
+Buffer size is 1800000
+Conflicts is 291603 ( 29.16 %) 
+Hits is 708397 ( 70.84 %) 
+Search Time is 0.944703
+One Time is 0.000001
+Correct Percent is 100.000000
+Move Average is 0.395871
+Number of Cycle is 862252
+Number of One Slot 526192 ( 74.28 %)
+Number of Total Slot 1.41
+
+Sample Num : 20
+constructing time : 0.905996
+Search Node is 1000000
+Ready!
+Buffer size is 2000000
+Conflicts is 275137 ( 27.51 %) 
+Hits is 724863 ( 72.49 %) 
+Search Time is 0.959717
+One Time is 0.000001
+Correct Percent is 100.000000
+Move Average is 0.392938
+Number of Cycle is 874467
+Number of One Slot 554173 ( 76.45 %)
+Number of Total Slot 1.38
+

@@ -3,14 +3,13 @@
 #include<string.h>
 #include<time.h>
 
-#define BUFFER_SIZE 1000000
+#define BUFFER_SIZE 10000000
 #define SEARCH_NUM 1000000
 #define PATH "../random/"
 
 typedef struct Node{
 	int len;
 	char **list;
-	char *value;
 }Node;
 
 int NODE_NUM;
@@ -54,8 +53,7 @@ int main(int argc, char**argv){
 	char *str=(char*)malloc(sizeof(char)*(STR_LEN));
 
 	double searchTime=0,functionTime = 0,Time;
-	struct timespec start, end;
-	int cycle_start, cycle_end;
+	struct timespec start, end, fstart, fend;
 	
 	clock_gettime(CLOCK_MONOTONIC, &start);
 
@@ -85,17 +83,13 @@ int main(int argc, char**argv){
     strcat(fname,"_s");
 
     FILE *sFile = fopen(fname,"r");
-
-	cycle_start = clock();
 	clock_gettime(CLOCK_MONOTONIC, &start);
-	
 
 	for(i=0;i<SEARCH_NUM;i++){
 		
 		bzero(str,STR_LEN);
 		fscanf(sFile,"%s",str);
 
-		// Measure Search Time
 		
 		key = hashFunc(str);
 
@@ -105,13 +99,10 @@ int main(int argc, char**argv){
 	
 	}
 
-	
-	clock_gettime(CLOCK_MONOTONIC, &end);
-
-	cycle_end = clock();
-
-	searchTime = end.tv_sec - start.tv_sec;
+	clock_gettime(CLOCK_MONOTONIC,&end);
+	searchTime += end.tv_sec - start.tv_sec;
 	searchTime += (end.tv_nsec - start.tv_nsec) / 1000000000.0;
+		
 
 	fclose(sFile);
 	
@@ -123,14 +114,7 @@ int main(int argc, char**argv){
 	printf("One Time is %lf\n",searchTime/SEARCH_NUM);
 	printf("Correct Percent is %lf\n",(float)correct/(float)SEARCH_NUM*100);
 	printf("Move Average is %f\n",(float)moveSum/SEARCH_NUM);
-	printf("Number of Cycle is %d\n",cycle_end-cycle_start);
-
-	for(i=0;i<BUFFER_SIZE;i++){
-		if(table[i] ==NULL) continue;
-		else if(table[i]->len==0)
-			oneSlot++;
-	}
-	printf("Number of One Slot %d ( %.2f %%)\n",oneSlot,(float)oneSlot/hits*100);
+	printf("One Slot Seacrh is %d ( %.2f %%)\n",oneSlot,(float)oneSlot/(float)SEARCH_NUM*100);
 	for(i=0;i<BUFFER_SIZE;i++) freeTree(table[i]);
 
 	free(table);
@@ -160,11 +144,6 @@ int searchNode(struct Node *root, char *str){
 
 int searchNode(struct Node *root, char *str){
 	
-	
-	if(strcmp(root->value,str)==0)
-		return 1;
-		
-
 	int first=0,value=0,last = root->len-1;
 	char **list = root->list;	
     int mid = (first+last)/2;
@@ -194,11 +173,10 @@ void insertNode(Node **root, char *str){
 	if(*root == NULL){
 		
 		node = (Node*)malloc(sizeof(Node));
-		node->value = (char*)malloc(sizeof(char)*STR_LEN);
-		strcpy(node->value,str);
 		node->list = (char**)malloc(sizeof(char*)*1);
-		node->len = 0;
-
+		node->list[0] = (char*)malloc(sizeof(char)*STR_LEN);
+		strcpy(node->list[0],str);
+		node->len = 1;
         (*root) = node;
 		
 		return;
@@ -223,10 +201,8 @@ int hashFunc(char* str){
     for(i=0;i<len;i+=7){
         sel = i+move;
 
-        sum += ((str[i]|str[sel]) << (i%30));
-
+        sum += ((str[i]*str[sel]*str[(i+sel)/2]) << (i%30));
     }
-
     return sum%BUFFER_SIZE;
 
 }

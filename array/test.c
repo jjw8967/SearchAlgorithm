@@ -85,6 +85,7 @@ int main(int argc, char **argv){
 	int i,value=0,correct=0;
     double Time;
     struct timespec start, end;
+	int cycle_start,cycle_end;
     
 	sprintf(fname,"%s%d_%d",PATH,STR_NUM,NODE_NUM);
 
@@ -106,7 +107,6 @@ int main(int argc, char **argv){
 
     FILE *sFile = fopen(fname,"r");
 
-	
 	clock_gettime(CLOCK_MONOTONIC, &start);
 
 	//quick(sortedList,0,NODE_NUM-1);		I used sorted data in file
@@ -117,7 +117,8 @@ int main(int argc, char **argv){
     Time += (end.tv_nsec - start.tv_nsec) / 1000000000.0;
 
 	printf("constructing time : %lf\n",Time);
-	
+
+	cycle_start = clock();
 	clock_gettime(CLOCK_MONOTONIC, &start);
 
 	Time=0;
@@ -127,25 +128,26 @@ int main(int argc, char **argv){
 		fscanf(sFile,"%s",str);
 
 		// Search String
-		clock_gettime(CLOCK_MONOTONIC, &start);
 		
 		value = search(sortedList,str);
 		
-		clock_gettime(CLOCK_MONOTONIC, &end);
-
-		Time += end.tv_sec - start.tv_sec;
-	    Time += (end.tv_nsec - start.tv_nsec) / 1000000000.0;
-
 		if(value == 1)
 			correct ++;
 	}
+	clock_gettime(CLOCK_MONOTONIC, &end);
+	cycle_end = clock();
+
+	Time += end.tv_sec - start.tv_sec;
+	Time += (end.tv_nsec - start.tv_nsec) / 1000000000.0;
+
 
 	fclose(sFile);
 
     printf("Search Time is %lf\n",Time);
     printf("One Time is %lf\n",Time/SEARCH_NUM);
     printf("Correct Percent is %lf\n",(float)correct/(float)SEARCH_NUM*100);
-	printf("Move Average is %f\n",(float)moveSum/SEARCH_NUM);
+    printf("Move Average is %f\n",(float)moveSum/SEARCH_NUM);
+	printf("Number of Cycle is %d\n",cycle_end-cycle_start);
 
     for(i=0;i<NODE_NUM;i++){
         free(sortedList[i]);
